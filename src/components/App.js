@@ -13,8 +13,9 @@ let ethers = require("ethers")
 let filesCount;
 const App = () => {
   const [account, setAccount] = useState();
+  const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
   const [ddBox, setddBox] = useState();
   const [buffer, setBuffer] = useState(null);
   const [selectedFile,setSelectedFile]=useState();
@@ -60,12 +61,14 @@ const App = () => {
         // console.log("filesCount is " + filesCount);
 
         //Load files&sort by the newest
-        for (let i = filesCount; i >= 1; i--) {
-          const file = await myContract.files(i);
-          setFiles([...files, file]);
+
+          for (let i = filesCount; i >= 1; i--) {
+            let file=await myContract.files(i) ;
+            setFiles(files=>[...files,file]  );
+            // console.log(files)
           
         }
-        
+       
         resolve({ DDBox });
         return;
       }
@@ -138,47 +141,6 @@ console.log(res.data)
         callMethod();
       setLoading(false)
   }
-
-
-  //Upload File
-  // const uploadFile = description => {
-  //   console.log("ipfs client is : ",ipfs)
-  //   //Add file to the IPFS
-  //   //from infura documentation
-  //   ipfs.add(buffer)
-  //     .then(
-  //       res => {
-  //         console.log("res is ", res)
-  //         //Set state to loading
-  //         setLoading(true);
-  //         //Assign value for the file without extension
-  //         if (type == null) {
-  //           setType('none')
-  //         }
-  //         console.log("our smart contract is ", ddBox)
-  //         console.log("our method is ", ddBox.functions.uploadFile)
-
-  //         const callMethod = async () => {
-  //           try {
-  //             console.log(ddBox.functions)
-  //             const tx = await ddBox.functions.uploadFile(res.size, res.path, type, name, description);
-  //             console.log("transaction is : ", tx)
-  //             console.log(tx.hash)
-  //             setLoading(false);
-  //             setType(null);
-  //             setName(null);
-  //             window.location.reload()
-  //           } catch (error) {
-  //             window.alert('Error')
-  //             setLoading(false)
-  //           }
-  //         }
-  //         callMethod();
-  //       }
-  //     )
-  //     .catch(error => console.error(error))
-  // }
-
 
   return (
     <>

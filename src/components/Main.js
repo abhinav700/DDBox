@@ -1,20 +1,18 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { convertBytes } from './helpers';
 import moment from 'moment'
+import DisplayTable from './DisplayTable';
 let fileDescription;
-let count=1;  
+let count = 0;
 const Main = (props) => {
- console.log(props.files[0])
+  count = 0;
   return (
     <>
       <div className="container-fluid mt-5 text-center">
         <div className="row">
-          <main role="main" className=" container col-lg-12 ml-auto mr-auto" style={{ maxWidth: '1024px' }}>
+          <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '1024px' }}>
             <div className="content">
               <p>&nbsp;</p>
-
-
-
               <div className="card mb-3 mx-auto bg-dark" style={{ maxWidth: '512px' }}>
                 <h2 className="text-white text-monospace bg-dark"><b><ins>Share File</ins></b></h2>
                 <form onSubmit={(event) => {
@@ -37,51 +35,51 @@ const Main = (props) => {
                 </form>
               </div>
               <p>&nbsp;</p>
-              {/* Create Table*/}
-              <table className="table-sm table-bordered text-monospace" style={{ width: '1000px', maxHeight: '450px'}}>
+              <table className="table-sm table-bordered text-monospace" style={{ width: '1000px', maxHeight: '450px' }}>
                 <thead style={{ 'fontSize': '15px' }}>
                   <tr className="bg-dark text-white">
-                    <th scope="col" style={{ width: '10px'}}>id</th>
-                    <th scope="col" style={{ width: '200px'}}>name</th>
-                    <th scope="col" style={{ width: '230px'}}>description</th>
-                    <th scope="col" style={{ width: '120px'}}>type</th>
-                    <th scope="col" style={{ width: '90px'}}>size</th>
-                    <th scope="col" style={{ width: '90px'}}>date</th>
-                    <th scope="col" style={{ width: '120px'}}>uploader/view</th>
-                    <th scope="col" style={{ width: '120px'}}>hash/view/get</th>
+                    <th scope="col" style={{ width: '10px' }}>id</th>
+                    <th scope="col" style={{ width: '200px' }}>name</th>
+                    <th scope="col" style={{ width: '230px' }}>description</th>
+                    <th scope="col" style={{ width: '120px' }}>type</th>
+                    <th scope="col" style={{ width: '90px' }}>size</th>
+                    <th scope="col" style={{ width: '90px' }}>date</th>
+                    <th scope="col" style={{ width: '120px' }}>uploader/view</th>
+                    <th scope="col" style={{ width: '120px' }}>hash/view/get</th>
                   </tr>
                 </thead>
-                {/* { props.files.map((file, key) => {
-                  return(
-                    <thead style={{ 'fontSize': '12px' }} key={key}>
-                      <tr>
-                        <td>{file.fileId}</td>
-                        <td>{file}</td>
-                        <td>{file.fileDescription}</td>
-                        <td>{file.fileType}</td>
-                        <td>{convertBytes(file.fileSize)}</td>
-                        <td>{moment.unix(file.uploadTime).format('h:mm:ss A M/D/Y')}</td>
-                        <td>
-                          <a
-                            href={"https://etherscan.io/address/" + file.uploader}
-                            rel="noopener noreferrer"
-                            target="_blank">
-                            {file.uploader?file.uploader.substring(0,10):""}...
-                          </a>
-                         </td>
-                        <td>
-                          <a
-                            href={"https://ipfs.infura.io/ipfs/" + file.fileHash}
-                            rel="noopener noreferrer"
-                            target="_blank">
-                            {file.fileHash?file.fileHash.substring(0,10):""}...
-                          </a>
-                        </td>
-                      </tr>
-                    </thead>
-                  )
-                })} */
-                }
+                {
+                  props.files.map((file, key) => {
+                    count=count+1
+                    return (
+                      <thead style={{ 'fontSize': '12px' }} key={key}>
+                        <tr>
+                          <td>{count}</td>
+                          <td>{file.fileName}</td>
+                          <td>{file.fileDescription}</td>
+                          <td>{file.fileType}</td>
+                          <td>{convertBytes(file.fileSize)}</td>
+                          <td>{moment.unix(file.uploadTime).format('h:mm:ss A M/D/Y')}</td>
+                          <td>
+                            <a
+                              href={"https://etherscan.io/address/" + file.uploader}
+                              rel="noopener noreferrer"
+                              target="_blank">
+                              {file.uploader.substring(0, 10)}...
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              href={"https://ipfs.io/ipfs/"+file.fileHash}
+                              rel="noopener noreferrer"
+                              target="_blank">
+                              {file.fileHash.substring(0, 10)}...
+                            </a>
+                          </td>
+                        </tr>
+                      </thead>
+                    )
+                  })}
               </table>
             </div>
           </main>
@@ -91,6 +89,6 @@ const Main = (props) => {
   )
 }
 
-  
+
 
 export default Main
